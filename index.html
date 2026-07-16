@@ -21,6 +21,12 @@
 <meta name="twitter:title" content="Houston Heating & Air Conditioning: AC Supply and Service">
 <meta name="twitter:description" content="Professional HVAC repair, installation & maintenance in Houston, TX. Same-day service available.">
 
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WM47S7EP5D"></script>
 <script>
@@ -41,8 +47,8 @@
   "url": "https://houstonhvac.net/",
   "telephone": "+13463627657",
   "email": "info@houstonhvac.net",
-  "logo": "https://houstonhvac.net/logo.png",
-  "image": "https://houstonhvac.net/og-image.jpg",
+  "logo": "https://houstonhvac.net/images/logo.png",
+  "image": "https://houstonhvac.net/images/full/image-1.jpg",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "3222 Mainford St",
@@ -227,6 +233,7 @@ header .container {
   gap: 16px;
 }
 .logo-wrap { display: flex; align-items: center; gap: 12px; }
+.logo-img { width: 48px; height: 48px; flex-shrink: 0; border-radius: 8px; object-fit: contain; }
 .logo-icon { width: 48px; height: 48px; flex-shrink: 0; }
 .logo-icon svg { width: 100%; height: 100%; }
 .logo-text { font-size: clamp(0.9rem, 2vw, 1.2rem); font-weight: 700; color: var(--dark); line-height: 1.2; }
@@ -239,19 +246,34 @@ header .container {
 
 /* ===== HERO ===== */
 .hero {
-  background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 50%, #0a7e8c 100%);
   color: #fff;
   padding: 80px 0 70px;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: #0a1628;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('images/full/image-1.jpg') center center / cover no-repeat;
+  filter: brightness(0.35) saturate(0.7);
+  z-index: 0;
 }
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
+  background: linear-gradient(135deg, rgba(10,22,40,0.7) 0%, rgba(10,22,40,0.3) 100%);
+  z-index: 1;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   opacity: 0.5;
+  z-index: 1;
 }
 .hero .container { position: relative; z-index: 1; }
 .hero-badge {
@@ -413,6 +435,132 @@ header .container {
   padding: 0 24px 18px;
 }
 
+/* ===== GALLERY ===== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.gallery-item {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 16 / 10;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+.gallery-item:hover img { transform: scale(1.05); }
+.gallery-item .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+.gallery-item:hover .overlay { opacity: 1; }
+.gallery-item .overlay span {
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.lightbox.active { display: flex; }
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 10;
+  line-height: 1;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.25); }
+.lightbox-img-wrap {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-img-wrap img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 8px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+  object-fit: contain;
+}
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 10;
+}
+.lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+.lightbox-counter {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+  background: rgba(0,0,0,0.5);
+  padding: 6px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
 /* ===== CONTACT / INFO ===== */
 .contact-block { background: var(--dark); color: #fff; padding: 60px 0; }
 .contact-block h2 { color: #fff; }
@@ -465,6 +613,12 @@ footer a:hover { color: #fff; }
   .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 36px; padding-top: 28px; }
   .cta-button { padding: 16px 28px; font-size: 1.1rem; width: 100%; justify-content: center; }
   .services-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .lightbox { padding: 12px; }
+  .lightbox-nav { width: 40px; height: 40px; font-size: 1.2rem; }
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+  .lightbox-close { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1.3rem; }
 }
 
 @media (max-width: 480px) {
@@ -488,15 +642,7 @@ footer a:hover { color: #fff; }
 <header>
   <div class="container">
     <div class="logo-wrap">
-      <div class="logo-icon">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="24" cy="24" r="23" fill="#0a7e8c" stroke="#065a65" stroke-width="2"/>
-          <path d="M16 26l-3 3h4l-2 4h6l-3-4h4l-6-7z" fill="#fff"/>
-          <path d="M28 18l2-2h-3l1.5-3h-4.5l2 3h-3l4 4.5z" fill="#fff"/>
-          <rect x="22" y="30" width="4" height="8" rx="1" fill="#fff" opacity="0.6"/>
-          <rect x="20" y="37" width="8" height="2" rx="1" fill="#fff" opacity="0.4"/>
-        </svg>
-      </div>
+      <img src="images/logo.png" alt="Houston Heating & Air Conditioning: AC Supply and Service" class="logo-img" width="48" height="48">
       <div class="logo-text">
         Houston Heating & Air<br><span>AC Supply and Service</span>
       </div>
@@ -516,6 +662,7 @@ footer a:hover { color: #fff; }
 
 <!-- ===== HERO ===== -->
 <section class="hero">
+  <div class="hero-bg"></div>
   <div class="container">
     <div class="hero-badge">🏆 Trusted HVAC Service in Houston, TX</div>
     <h1>Houston's Premier <span class="highlight">Heating & Air Conditioning</span> Service</h1>
@@ -712,6 +859,67 @@ footer a:hover { color: #fff; }
   </div>
 </section>
 
+<!-- ===== GALLERY ===== -->
+<section class="section" id="gallery">
+  <div class="container">
+    <h2 class="section-title">Our Work & Facility</h2>
+    <p class="section-subtitle">Take a look at our team, equipment, and facility in action. From our Northside office to residential service calls — see the Houston Heating & Air difference.</p>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item" data-index="0" onclick="openLightbox(0)">
+        <img src="images/thumbs/image-1.jpg" alt="Houston Heating & Air office exterior with branded service van" loading="lazy">
+        <div class="overlay"><span>Office &amp; Service Van</span></div>
+      </div>
+      <div class="gallery-item" data-index="1" onclick="openLightbox(1)">
+        <img src="images/thumbs/image-2.jpg" alt="Reception area with customer service desk at Houston HVAC office" loading="lazy">
+        <div class="overlay"><span>Customer Service Desk</span></div>
+      </div>
+      <div class="gallery-item" data-index="2" onclick="openLightbox(2)">
+        <img src="images/thumbs/image-3.jpg" alt="HVAC technician with commercial AC units" loading="lazy">
+        <div class="overlay"><span>Commercial HVAC Service</span></div>
+      </div>
+      <div class="gallery-item" data-index="3" onclick="openLightbox(3)">
+        <img src="images/thumbs/image-4.jpg" alt="Friendly customer consultation at HVAC office" loading="lazy">
+        <div class="overlay"><span>Customer Consultation</span></div>
+      </div>
+      <div class="gallery-item" data-index="4" onclick="openLightbox(4)">
+        <img src="images/thumbs/image-5.jpg" alt="Branded HVAC service van in residential driveway" loading="lazy">
+        <div class="overlay"><span>Mobile Service Fleet</span></div>
+      </div>
+      <div class="gallery-item" data-index="5" onclick="openLightbox(5)">
+        <img src="images/thumbs/image-6.jpg" alt="HVAC technician repairing residential AC unit" loading="lazy">
+        <div class="overlay"><span>AC Repair in Progress</span></div>
+      </div>
+      <div class="gallery-item" data-index="6" onclick="openLightbox(6)">
+        <img src="images/thumbs/image-7.jpg" alt="HVAC technician standing next to service van" loading="lazy">
+        <div class="overlay"><span>Your Service Technician</span></div>
+      </div>
+      <div class="gallery-item" data-index="7" onclick="openLightbox(7)">
+        <img src="images/thumbs/image-8.jpg" alt="HVAC maintenance of residential AC condenser unit" loading="lazy">
+        <div class="overlay"><span>AC Maintenance</span></div>
+      </div>
+      <div class="gallery-item" data-index="8" onclick="openLightbox(8)">
+        <img src="images/thumbs/image-9.jpg" alt="Houston Heating & Air office entrance with technician" loading="lazy">
+        <div class="overlay"><span>Office Entrance</span></div>
+      </div>
+      <div class="gallery-item" data-index="9" onclick="openLightbox(9)">
+        <img src="images/thumbs/image-10.jpg" alt="HVAC technician at work on commercial equipment" loading="lazy">
+        <div class="overlay"><span>Commercial Service</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Image viewer">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="prevImage()" aria-label="Previous image">‹</button>
+  <button class="lightbox-nav lightbox-next" onclick="nextImage()" aria-label="Next image">›</button>
+  <div class="lightbox-img-wrap">
+    <img id="lightboxImg" src="" alt="Gallery image">
+  </div>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
 <!-- ===== SERVICE AREAS ===== -->
 <section class="section section-alt" id="areas">
   <div class="container">
@@ -856,12 +1064,76 @@ footer a:hover { color: #fff; }
 </footer>
 
 <script>
-// FAQ toggle enhancement (delegation for dynamically toggled items)
+// FAQ toggle
 document.querySelectorAll('.faq-question').forEach(q => {
   q.addEventListener('click', function() {
     this.parentElement.classList.toggle('active');
   });
 });
+
+// ===== LIGHTBOX =====
+const totalImages = 10;
+let currentIndex = 0;
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCounter = document.getElementById('lightboxCounter');
+
+function openLightbox(index) {
+  currentIndex = index;
+  updateLightbox();
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function updateLightbox() {
+  const imgNum = currentIndex + 1;
+  lightboxImg.src = 'images/full/image-' + imgNum + '.jpg';
+  lightboxImg.alt = 'Gallery image ' + imgNum;
+  lightboxCounter.textContent = imgNum + ' / ' + totalImages;
+}
+
+function nextImage() {
+  currentIndex = (currentIndex + 1) % totalImages;
+  updateLightbox();
+}
+
+function prevImage() {
+  currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+  updateLightbox();
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+  if (!lightbox.classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') nextImage();
+  if (e.key === 'ArrowLeft') prevImage();
+});
+
+// Click outside image to close
+lightbox.addEventListener('click', function(e) {
+  if (e.target === lightbox) closeLightbox();
+});
+
+// Touch/swipe support for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+lightbox.addEventListener('touchstart', function(e) {
+  touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+lightbox.addEventListener('touchend', function(e) {
+  touchEndX = e.changedTouches[0].screenX;
+  const diff = touchStartX - touchEndX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) nextImage();
+    else prevImage();
+  }
+}, {passive: true});
 </script>
 
 </body>
